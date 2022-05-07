@@ -36,8 +36,6 @@ function jwtVerify(req, res, next) {
 
 
 
-
-
 const uri = `mongodb+srv://${process.env.FASHIONFLAVOUR_USER}:${process.env.FASHIONFLAVOUR_PASS}@cluster0.mvgy0.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
@@ -52,6 +50,13 @@ const run = async () => {
 
 
         // jwt
+        app.post('/signup', async (req, res) => {
+            const user = req.body
+            const accessJwtToken = jwt.sign(user, process.env.ACCESS_JWTTOKEN, {
+                expiresIn: '10d'
+            })
+            res.send({ accessJwtToken })
+        })
         app.post('/login', async (req, res) => {
             const user = req.body
             const accessJwtToken = jwt.sign(user, process.env.ACCESS_JWTTOKEN, {
@@ -62,9 +67,27 @@ const run = async () => {
 
         // All product get
         app.get('/dress', async (req, res) => {
+            console.log('query', req.query);
+            const page = parseInt(req.query.page)
+            const size = parseInt(req.query.size)
+
             const query = {}
-            const result = await productsCollection.find(query).toArray()
+            const cursor = productsCollection.find(query)
+            let result
+            if (page || size) {
+                result = await cursor.skip(page * size).limit(size).toArray()
+
+            }
+            else {
+                result = await cursor.toArray()
+            }
             res.send(result)
+        })
+
+
+        app.get('/productCount', async (req, res) => {
+            const count = await productsCollection.estimatedDocumentCount()
+            res.send({ count })
         })
 
         // Get product by id
@@ -86,13 +109,13 @@ const run = async () => {
         app.get('/mydress', jwtVerify, async (req, res) => {
             const emailDecoded = req.decoded.email
             const email = req.query.email
-            if(email === emailDecoded){
+            if (email === emailDecoded) {
                 const query = { email: email }
-            const result = await productsCollection.find(query).toArray()
-            res.send(result)
+                const result = await productsCollection.find(query).toArray()
+                res.send(result)
             }
-            else{
-                 res.status(403).send({ message: 'Access denied! Forbidden access' })
+            else {
+                res.status(403).send({ message: 'Access denied! Forbidden access' })
             }
         })
 
