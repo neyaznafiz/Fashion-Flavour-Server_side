@@ -15,25 +15,24 @@ app.use(express.json())
 
 
 
-// function jwtVerify(req, res, next) {
-//     const authHeader = req.headers.authorization
-//     console.log(authHeader);
-//     if (!authHeader) {
-//         return res.status(401).send({ message: 'unauthorized access' })
-//     }
+function jwtVerify(req, res, next) {
+    const authHeader = req.headers.authorization
+    if (!authHeader) {
+        return res.status(401).send({ message: 'Access denied! unauthorized access' })
+    }
 
-//     else {
-//         const token = authHeader.split(' ')[1]
-//         jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
-//             if (err) {
-//                 return res.status(403).send({ message: 'Forbidden access done' })
-//             }
-//             console.log('decoded', decoded);
-//             req.decoded = decoded
-//             next()
-//         })
-//     }
-// }
+    else {
+        const token = authHeader.split(' ')[1]
+        jwt.verify(token, process.env.ACCESS_JWTTOKEN, (err, decoded) => {
+            if (err) {
+                return res.status(403).send({ message: 'Access denied! Forbidden access' })
+            }
+            console.log('decoded', decoded);
+            req.decoded = decoded
+        })
+        next()
+    }
+}
 
 
 
@@ -84,11 +83,17 @@ const run = async () => {
         })
 
         // Filter product by email
-        app.get('/mydress', async (req, res) => {
+        app.get('/mydress', jwtVerify, async (req, res) => {
+            const emailDecoded = req.decoded.email
             const email = req.query.email
-            const query = { email: email }
+            if(email === emailDecoded){
+                const query = { email: email }
             const result = await productsCollection.find(query).toArray()
             res.send(result)
+            }
+            else{
+                 res.status(403).send({ message: 'Access denied! Forbidden access' })
+            }
         })
 
 
