@@ -120,39 +120,25 @@ const run = async () => {
         })
 
 
-        app.patch('/dress/:id', async (req, res) => {
+        app.put('/dress/:id', async (req, res) => {
             const id = req.params.id
-            console.log(id);
-            const updatedData = req.body
-            console.log(updatedData);
+            // console.log(id)
+            const updatedQuantity = req.body.updatedData
+            console.log(updatedQuantity);
             const filter = { _id: id }
-            console.log(filter);
+            console.log(filter)
             const options = { upsert: true }
+            console.log(options);
             const updatedDoc = {
                 $set: {
-                    quantity: updatedData.quantity
+                    quantity: updatedQuantity
                 }
             }
             console.log(updatedDoc);
             const result = await productsCollection.updateOne(filter, updatedDoc, options)
+            console.log(result);
             res.send(result)
         })
-
-
-        // app.put('/dress/:id', async (req, res) => {
-        //     const id = req.params.id
-        //     console.log(id);
-        //     const updatedQuantity = req.body
-        //     const filter = { _id: ObjectId(id) }
-        //     const options = { upsert: true }
-        //     const updatedDoc = {
-        //         $set: {
-        //             quantity: updatedQuantity.quantity
-        //         }
-        //     }
-        //     const result = await productsCollection.updateOne(filter, updatedDoc, options)
-        //     res.send(result)
-        // })
 
 
         // Delete product
