@@ -120,23 +120,23 @@ const run = async () => {
         })
 
 
-        // app.patch('/dress/:id', async (req, res) => {
-        //     const id = req.params.id
-        //     console.log(id);
-        //     const updateData = req.body
-        //     console.log(updateData);
-        //     const filter = {_id: ObjectId(id)}
-        //     console.log(filter);
-        //     const options = { upsert: true }
-        //     const updatedDoc = {
-        //         $set: {
-        //             quantity: updatedData.quantity
-        //         }
-        //     }
-        //     console.log(updatedDoc);
-        //     const result = await productsCollection.updateOne(filter, updatedDoc, options)
-        //     res.send(result)
-        // })
+        app.patch('/dress/:id', async (req, res) => {
+            const id = req.params.id
+            console.log(id);
+            const updateData = req.body
+            console.log(updateData);
+            const filter = {_id: ObjectId(id)}
+            console.log(filter);
+            const options = { upsert: true }
+            const updatedDoc = {
+                $set: {
+                    quantity: updatedData.quantity
+                }
+            }
+            console.log(updatedDoc);
+            const result = await productsCollection.updateOne(filter, updatedDoc, options)
+            res.send(result)
+        })
 
 
         // app.put('/dress/:id', async (req, res) => {
