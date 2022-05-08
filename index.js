@@ -122,21 +122,15 @@ const run = async () => {
 
         app.put('/dress/:id', async (req, res) => {
             const id = req.params.id
-            // console.log(id)
             const updatedQuantity = req.body.updatedData
-            console.log(updatedQuantity);
             const filter = { _id: id }
-            console.log(filter)
             const options = { upsert: true }
-            console.log(options);
             const updatedDoc = {
                 $set: {
                     quantity: updatedQuantity
                 }
             }
-            console.log(updatedDoc);
             const result = await productsCollection.updateOne(filter, updatedDoc, options)
-            console.log(result);
             res.send(result)
         })
 
@@ -146,7 +140,6 @@ const run = async () => {
             const id = req.params.id
             const query = { _id: ObjectId(id) }
             const results = await productsCollection.deleteOne(query)
-            console.log(results);
             res.send(results)
         })
 
