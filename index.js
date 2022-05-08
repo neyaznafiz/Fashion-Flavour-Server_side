@@ -83,7 +83,7 @@ const run = async () => {
             res.send(result)
         })
 
-
+        // pagination
         app.get('/productCount', async (req, res) => {
             const count = await productsCollection.estimatedDocumentCount()
             res.send({ count })
