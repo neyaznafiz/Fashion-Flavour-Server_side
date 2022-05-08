@@ -120,6 +120,41 @@ const run = async () => {
         })
 
 
+        // app.patch('/dress/:id', async (req, res) => {
+        //     const id = req.params.id
+        //     console.log(id);
+        //     const updateData = req.body
+        //     console.log(updateData);
+        //     const filter = {_id: ObjectId(id)}
+        //     console.log(filter);
+        //     const options = { upsert: true }
+        //     const updatedDoc = {
+        //         $set: {
+        //             quantity: updatedData.quantity
+        //         }
+        //     }
+        //     console.log(updatedDoc);
+        //     const result = await productsCollection.updateOne(filter, updatedDoc, options)
+        //     res.send(result)
+        // })
+
+
+        // app.put('/dress/:id', async (req, res) => {
+        //     const id = req.params.id
+        //     console.log(id);
+        //     const updatedQuantity = req.body
+        //     const filter = { _id: ObjectId(id) }
+        //     const options = { upsert: true }
+        //     const updatedDoc = {
+        //         $set: {
+        //             quantity: updatedQuantity.quantity
+        //         }
+        //     }
+        //     const result = await productsCollection.updateOne(filter, updatedDoc, options)
+        //     res.send(result)
+        // })
+
+
         // Delete product
         app.delete('/dress/:id', async (req, res) => {
             const id = req.params.id
