@@ -67,7 +67,6 @@ const run = async () => {
 
         // All product get
         app.get('/dress', async (req, res) => {
-            console.log('query', req.query);
             const page = parseInt(req.query.page)
             const size = parseInt(req.query.size)
 
@@ -120,6 +119,7 @@ const run = async () => {
         })
 
 
+        // put for upadet quantity 
         app.put('/dress/:id', async (req, res) => {
             const id = req.params.id
             const updatedQuantity = req.body.updatedData
