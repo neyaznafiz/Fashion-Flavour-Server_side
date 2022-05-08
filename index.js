@@ -123,9 +123,9 @@ const run = async () => {
         app.patch('/dress/:id', async (req, res) => {
             const id = req.params.id
             console.log(id);
-            const updateData = req.body
-            console.log(updateData);
-            const filter = {_id: ObjectId(id)}
+            const updatedData = req.body
+            console.log(updatedData);
+            const filter = { _id: id }
             console.log(filter);
             const options = { upsert: true }
             const updatedDoc = {
